@@ -1,6 +1,6 @@
 # R5RLauncher
 
-Note: I am not affiliated with the develeopment of R5 Reloaded! This is a Unoffical Launcher
+Note: I am not affiliated with the development of R5 Reloaded! This is a Unoffical Launcher
 
 This is a simple Launcher/Updater for R5 Reloaded (https://github.com/Mauler125/detours_r5)
 
