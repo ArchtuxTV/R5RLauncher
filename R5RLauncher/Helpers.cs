@@ -44,6 +44,18 @@ namespace R5RLauncher
         {
             Process[] processes = Process.GetProcessesByName("r5apex");
 
+            if (File.ReadAllText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg").Contains("-dev"))
+            {
+                //File Good
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg"))
+                {
+                    sw.WriteLine("\n-dev");
+                }
+            }
+
 
             if (processes.Length == 0)
             {
@@ -89,6 +101,18 @@ namespace R5RLauncher
         public async static void StartServer(string vis, string key, string name)
         {
             Process[] processes = Process.GetProcessesByName("r5apex");
+
+            if (File.ReadAllText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg").Contains("-dev"))
+            {
+                //File Good
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg"))
+                {
+                    sw.WriteLine("\n-dev");
+                }
+            }
 
             string newname = name.Replace(" ", "=");
 

@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
+using R5RLauncher.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -130,7 +132,7 @@ namespace R5RLauncher
                 connect.Size = new System.Drawing.Size(95, 44);
                 connect.Location = new System.Drawing.Point(593, 0);
                 connect.Animated = true;
-                connect.Click += (s, e) => { Helpers.ServerConnect(item.ip, item.port, item.encKey); };
+                connect.Click += (s, e) => { Helpers.ServerConnect(item.ip, item.port, item.encKey); if (File.ReadAllText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg").Contains("-dev")) { /*File Good*/ } else { using (StreamWriter sw = File.AppendText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg")) { sw.WriteLine("\n-dev"); } } };
                 //End Of Add Connect Button
 
                 //Add Server Info Button
@@ -219,6 +221,18 @@ namespace R5RLauncher
 
         private void SIConnect_Click(object sender, EventArgs e)
         {
+            if (File.ReadAllText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg").Contains("-dev"))
+            {
+                //File Good
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg"))
+                {
+                    sw.WriteLine("\n-dev");
+                }
+            }
+
             Helpers.ServerConnect(SIIP.Text, SIPort.Text, SIEncKey.Text);
         }
     }

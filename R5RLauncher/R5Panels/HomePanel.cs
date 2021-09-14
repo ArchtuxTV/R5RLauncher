@@ -95,7 +95,19 @@ namespace R5RLauncher
 
         private async void LaunchGamebtn_Click(object sender, EventArgs e)
         {
-            if(Settings.Default.DevBuild)
+            if (File.ReadAllText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg").Contains("-dev"))
+            {
+                //File Good
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg"))
+                {
+                    sw.WriteLine("\n-dev");
+                }
+            }
+
+            if (Settings.Default.DevBuild)
             {
                 LaunchGamebtn.Enabled = false;
                 CServerbtn.Enabled = false;
@@ -129,6 +141,18 @@ namespace R5RLauncher
 
         private async void CServerbtn_Click(object sender, EventArgs e)
         {
+            if (File.ReadAllText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg").Contains("-dev"))
+            {
+                //File Good
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg"))
+                {
+                    sw.WriteLine("\n-dev");
+                }
+            }
+
             string finishedmap;
 
             if (MapBox.SelectedItem.ToString() == "King's Canyon Season 1")
