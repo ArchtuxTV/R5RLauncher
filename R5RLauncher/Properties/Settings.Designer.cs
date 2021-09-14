@@ -46,5 +46,17 @@ namespace R5RLauncher.Properties {
                 this["GameVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DevBuild {
+            get {
+                return ((bool)(this["DevBuild"]));
+            }
+            set {
+                this["DevBuild"] = value;
+            }
+        }
     }
 }

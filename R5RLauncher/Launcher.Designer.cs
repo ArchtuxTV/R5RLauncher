@@ -30,11 +30,11 @@ namespace R5RLauncher
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Guna.UI2.AnimatorNS.Animation animation1 = new Guna.UI2.AnimatorNS.Animation();
+            Guna.UI2.AnimatorNS.Animation animation2 = new Guna.UI2.AnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Launcher));
             this.SideBar = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.Patchnotesbtn = new Guna.UI2.WinForms.Guna2Button();
-            this.Docsbtn = new Guna.UI2.WinForms.Guna2Button();
             this.Settingsbtn = new Guna.UI2.WinForms.Guna2Button();
             this.Downloadapexbtn = new Guna.UI2.WinForms.Guna2Button();
             this.Serverlistbtn = new Guna.UI2.WinForms.Guna2Button();
@@ -48,11 +48,9 @@ namespace R5RLauncher
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.guna2Transition1 = new Guna.UI2.WinForms.Guna2Transition();
-            this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.settingsPanel1 = new R5RLauncher.R5Panels.SettingsPanel();
             this.patchPanel1 = new R5RLauncher.R5Panels.PatchPanel();
             this.downloadApexPanel1 = new R5RLauncher.R5Panels.DownloadApexPanel();
-            this.docsPanel1 = new R5RLauncher.R5Panels.DocsPanel();
             this.serverListPanel1 = new R5RLauncher.ServerListPanel();
             this.homePanel1 = new R5RLauncher.HomePanel();
             this.SideBar.SuspendLayout();
@@ -65,7 +63,6 @@ namespace R5RLauncher
             this.SideBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(63)))));
             this.SideBar.Controls.Add(this.guna2HtmlLabel1);
             this.SideBar.Controls.Add(this.Patchnotesbtn);
-            this.SideBar.Controls.Add(this.Docsbtn);
             this.SideBar.Controls.Add(this.Settingsbtn);
             this.SideBar.Controls.Add(this.Downloadapexbtn);
             this.SideBar.Controls.Add(this.Serverlistbtn);
@@ -79,6 +76,18 @@ namespace R5RLauncher
             this.SideBar.ShadowDecoration.Parent = this.SideBar;
             this.SideBar.Size = new System.Drawing.Size(179, 496);
             this.SideBar.TabIndex = 0;
+            // 
+            // guna2HtmlLabel1
+            // 
+            this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.guna2Transition1.SetDecoration(this.guna2HtmlLabel1, Guna.UI2.AnimatorNS.DecorationType.None);
+            this.guna2HtmlLabel1.Font = new System.Drawing.Font("Poppins", 7F);
+            this.guna2HtmlLabel1.ForeColor = System.Drawing.Color.White;
+            this.guna2HtmlLabel1.Location = new System.Drawing.Point(3, 475);
+            this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(108, 18);
+            this.guna2HtmlLabel1.TabIndex = 3;
+            this.guna2HtmlLabel1.Text = "R5 Version: placeholder";
             // 
             // Patchnotesbtn
             // 
@@ -97,32 +106,10 @@ namespace R5RLauncher
             this.Patchnotesbtn.ShadowDecoration.Parent = this.Patchnotesbtn;
             this.Patchnotesbtn.Size = new System.Drawing.Size(179, 39);
             this.Patchnotesbtn.TabIndex = 8;
-            this.Patchnotesbtn.Text = "R5 Patchnotes";
+            this.Patchnotesbtn.Text = "Patch Notes";
             this.Patchnotesbtn.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.Patchnotesbtn.TextOffset = new System.Drawing.Point(0, 2);
             this.Patchnotesbtn.Click += new System.EventHandler(this.Patchnotesbtn_Click);
-            // 
-            // Docsbtn
-            // 
-            this.Docsbtn.CheckedState.Parent = this.Docsbtn;
-            this.Docsbtn.CustomImages.Parent = this.Docsbtn;
-            this.guna2Transition1.SetDecoration(this.Docsbtn, Guna.UI2.AnimatorNS.DecorationType.None);
-            this.Docsbtn.FillColor = System.Drawing.Color.Transparent;
-            this.Docsbtn.Font = new System.Drawing.Font("Poppins", 10F);
-            this.Docsbtn.ForeColor = System.Drawing.Color.White;
-            this.Docsbtn.HoverState.Parent = this.Docsbtn;
-            this.Docsbtn.Image = global::R5RLauncher.Properties.Resources.Docs;
-            this.Docsbtn.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.Docsbtn.ImageOffset = new System.Drawing.Point(0, -1);
-            this.Docsbtn.Location = new System.Drawing.Point(0, 243);
-            this.Docsbtn.Name = "Docsbtn";
-            this.Docsbtn.ShadowDecoration.Parent = this.Docsbtn;
-            this.Docsbtn.Size = new System.Drawing.Size(179, 39);
-            this.Docsbtn.TabIndex = 7;
-            this.Docsbtn.Text = "R5 Documentation";
-            this.Docsbtn.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.Docsbtn.TextOffset = new System.Drawing.Point(0, 2);
-            this.Docsbtn.Click += new System.EventHandler(this.Docsbtn_Click);
             // 
             // Settingsbtn
             // 
@@ -136,7 +123,7 @@ namespace R5RLauncher
             this.Settingsbtn.Image = global::R5RLauncher.Properties.Resources.Settings;
             this.Settingsbtn.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.Settingsbtn.ImageOffset = new System.Drawing.Point(0, -1);
-            this.Settingsbtn.Location = new System.Drawing.Point(0, 321);
+            this.Settingsbtn.Location = new System.Drawing.Point(0, 282);
             this.Settingsbtn.Name = "Settingsbtn";
             this.Settingsbtn.ShadowDecoration.Parent = this.Settingsbtn;
             this.Settingsbtn.Size = new System.Drawing.Size(179, 39);
@@ -158,7 +145,7 @@ namespace R5RLauncher
             this.Downloadapexbtn.Image = global::R5RLauncher.Properties.Resources.Download;
             this.Downloadapexbtn.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.Downloadapexbtn.ImageOffset = new System.Drawing.Point(0, -1);
-            this.Downloadapexbtn.Location = new System.Drawing.Point(0, 282);
+            this.Downloadapexbtn.Location = new System.Drawing.Point(0, 243);
             this.Downloadapexbtn.Name = "Downloadapexbtn";
             this.Downloadapexbtn.ShadowDecoration.Parent = this.Downloadapexbtn;
             this.Downloadapexbtn.Size = new System.Drawing.Size(179, 39);
@@ -304,35 +291,23 @@ namespace R5RLauncher
             // 
             this.guna2Transition1.AnimationType = Guna.UI2.AnimatorNS.AnimationType.Transparent;
             this.guna2Transition1.Cursor = null;
-            animation1.AnimateOnlyDifferences = true;
-            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
-            animation1.LeafCoeff = 0F;
-            animation1.MaxTime = 1F;
-            animation1.MinTime = 0F;
-            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
-            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
-            animation1.MosaicSize = 0;
-            animation1.Padding = new System.Windows.Forms.Padding(0);
-            animation1.RotateCoeff = 0F;
-            animation1.RotateLimit = 0F;
-            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
-            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
-            animation1.TimeCoeff = 0F;
-            animation1.TransparencyCoeff = 1F;
-            this.guna2Transition1.DefaultAnimation = animation1;
+            animation2.AnimateOnlyDifferences = true;
+            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
+            animation2.LeafCoeff = 0F;
+            animation2.MaxTime = 1F;
+            animation2.MinTime = 0F;
+            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
+            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
+            animation2.MosaicSize = 0;
+            animation2.Padding = new System.Windows.Forms.Padding(0);
+            animation2.RotateCoeff = 0F;
+            animation2.RotateLimit = 0F;
+            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
+            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
+            animation2.TimeCoeff = 0F;
+            animation2.TransparencyCoeff = 1F;
+            this.guna2Transition1.DefaultAnimation = animation2;
             this.guna2Transition1.TimeStep = 0.05F;
-            // 
-            // guna2HtmlLabel1
-            // 
-            this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2Transition1.SetDecoration(this.guna2HtmlLabel1, Guna.UI2.AnimatorNS.DecorationType.None);
-            this.guna2HtmlLabel1.Font = new System.Drawing.Font("Poppins", 7F);
-            this.guna2HtmlLabel1.ForeColor = System.Drawing.Color.White;
-            this.guna2HtmlLabel1.Location = new System.Drawing.Point(3, 475);
-            this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            this.guna2HtmlLabel1.Size = new System.Drawing.Size(108, 18);
-            this.guna2HtmlLabel1.TabIndex = 3;
-            this.guna2HtmlLabel1.Text = "R5 Version: placeholder";
             // 
             // settingsPanel1
             // 
@@ -361,22 +336,13 @@ namespace R5RLauncher
             this.downloadApexPanel1.Size = new System.Drawing.Size(63, 48);
             this.downloadApexPanel1.TabIndex = 5;
             // 
-            // docsPanel1
-            // 
-            this.docsPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(79)))));
-            this.guna2Transition1.SetDecoration(this.docsPanel1, Guna.UI2.AnimatorNS.DecorationType.None);
-            this.docsPanel1.Location = new System.Drawing.Point(410, 48);
-            this.docsPanel1.Name = "docsPanel1";
-            this.docsPanel1.Size = new System.Drawing.Size(97, 48);
-            this.docsPanel1.TabIndex = 4;
-            // 
             // serverListPanel1
             // 
             this.serverListPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(79)))));
             this.guna2Transition1.SetDecoration(this.serverListPanel1, Guna.UI2.AnimatorNS.DecorationType.None);
             this.serverListPanel1.Location = new System.Drawing.Point(185, 43);
             this.serverListPanel1.Name = "serverListPanel1";
-            this.serverListPanel1.Size = new System.Drawing.Size(88, 48);
+            this.serverListPanel1.Size = new System.Drawing.Size(775, 454);
             this.serverListPanel1.TabIndex = 3;
             // 
             // homePanel1
@@ -397,7 +363,6 @@ namespace R5RLauncher
             this.Controls.Add(this.settingsPanel1);
             this.Controls.Add(this.patchPanel1);
             this.Controls.Add(this.downloadApexPanel1);
-            this.Controls.Add(this.docsPanel1);
             this.Controls.Add(this.serverListPanel1);
             this.Controls.Add(this.homePanel1);
             this.Controls.Add(this.TopBar);
@@ -430,16 +395,14 @@ namespace R5RLauncher
         private Guna.UI2.WinForms.Guna2Button Downloadapexbtn;
         private Guna.UI2.WinForms.Guna2Button Serverlistbtn;
         private Guna.UI2.WinForms.Guna2Button Patchnotesbtn;
-        private Guna.UI2.WinForms.Guna2Button Docsbtn;
         private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
         private HomePanel homePanel1;
         private ServerListPanel serverListPanel1;
         private R5Panels.SettingsPanel settingsPanel1;
         private R5Panels.PatchPanel patchPanel1;
         private R5Panels.DownloadApexPanel downloadApexPanel1;
-        private R5Panels.DocsPanel docsPanel1;
         private Guna.UI2.WinForms.Guna2Transition guna2Transition1;
-        private Guna.UI2.WinForms.Guna2HtmlLabel BreadCrum;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        public Guna.UI2.WinForms.Guna2HtmlLabel BreadCrum;
     }
 }

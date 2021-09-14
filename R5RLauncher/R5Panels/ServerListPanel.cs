@@ -14,6 +14,7 @@ namespace R5RLauncher
 {
     public partial class ServerListPanel : UserControl
     {
+
         WebClient serverlistweb = new WebClient();
         Guna.UI2.WinForms.Helpers.PanelScrollHelper scrollbar;
         public ServerListPanel()
@@ -23,83 +24,53 @@ namespace R5RLauncher
 
         private void ServerListPanel_Load(object sender, EventArgs e)
         {
+            //Fill Server List
             FillServerList();
+
+            //Setup ScrollBar For Server List
             ServerList.AutoScroll = true;
             ServerList.VerticalScroll.Visible = false;
             ServerList.HorizontalScroll.Visible = false;
             scrollbar = new Guna.UI2.WinForms.Helpers.PanelScrollHelper(ServerList, guna2VScrollBar1, true);
             scrollbar.UpdateScrollBar();
 
+            //Setup Server Info Panel
             InfoPanel.Location = new Point(0, 0);
             InfoPanel.Hide();
 
+            //Set ServerListPanel Size
             this.Size = new System.Drawing.Size(775, 454);
         }
-
-        private void SendServerInfo(string name, string map, string gamemode,string ip, string port, string enckey)
+        private void ServerListPanel_VisibleChanged(object sender, EventArgs e)
         {
+            Mainserverlistpanel.Visible = true;
+            InfoPanel.Visible = false;
+        }
+
+        private void SendServerInfoToPanel(string name, string map, string gamemode,string ip, string port, string enckey)
+        {
+            Launcher launcher = (Launcher)Application.OpenForms["Launcher"];
+            launcher.SetBreadCrumText("Server List > Server Info");
+
             //Setup Server Name
             SIServerName.Text = name;
 
             //Setup Map Image And Name
-            if (map == "mp_rr_canyonlands_64k_x_64k")
-            {
-                SIMapname.Text = "King's Canyon Season 0";
-                SIMappic.Image = R5RLauncher.Properties.Resources.KCS1;
-            }
-            else if (map == "mp_rr_canyonlands_mu1")
-            {
-                SIMapname.Text = "King's Canyon Season 2";
-                SIMappic.Image = R5RLauncher.Properties.Resources.KCS2;
-            }
-            else if (map == "mp_rr_canyonlands_mu1_night")
-            {
-                SIMapname.Text = "King's Canyon Season 2 After Dark";
-                SIMappic.Image = R5RLauncher.Properties.Resources.KCAD;
-            }
-            else if (map == "mp_rr_desertlands_64k_x_64k_nx")
-            {
-                SIMapname.Text = "World's Edge Season 3 After Dark";
-                SIMappic.Image = R5RLauncher.Properties.Resources.WES3;
-            }
-            else if (map == "mp_rr_desertlands_64k_x_64k")
-            {
-                SIMapname.Text = "World's Edge Season 3";
-                SIMappic.Image = R5RLauncher.Properties.Resources.WES3;
-            }
-            else if (map == "mp_rr_canyonlands_staging")
-            {
-                SIMapname.Text = "King's Canyon Firing Range";
-                SIMappic.Image = R5RLauncher.Properties.Resources.FR;
-            }
-            else
-            {
-                SIMapname.Text = map;
-                SIMappic.Image = R5RLauncher.Properties.Resources.WES3;
-            }
+            if (map == "mp_rr_canyonlands_64k_x_64k")           { SIMapname.Text = "King's Canyon Season 1"; SIMappic.Image = R5RLauncher.Properties.Resources.KCS1; }
+            else if (map == "mp_rr_canyonlands_mu1")            { SIMapname.Text = "King's Canyon Season 2"; SIMappic.Image = R5RLauncher.Properties.Resources.KCS2; }
+            else if (map == "mp_rr_canyonlands_mu1_night")      { SIMapname.Text = "King's Canyon Season After Dark"; SIMappic.Image = R5RLauncher.Properties.Resources.KCAD; }
+            else if (map == "mp_rr_desertlands_64k_x_64k_nx")   { SIMapname.Text = "World's Edge Season After Dark"; SIMappic.Image = R5RLauncher.Properties.Resources.WES3; }
+            else if (map == "mp_rr_desertlands_64k_x_64k")      { SIMapname.Text = "World's Edge Season 3"; SIMappic.Image = R5RLauncher.Properties.Resources.WES3; }
+            else if (map == "mp_rr_canyonlands_staging")        { SIMapname.Text = "King's Canyon Firing Range"; SIMappic.Image = R5RLauncher.Properties.Resources.FR; }
+            else                                                { SIMapname.Text = map; SIMappic.Image = R5RLauncher.Properties.Resources.WES3; }
 
             //Setup Gamemode Text
-            if (gamemode == "custom_tdm")
-            {
-                SIGamemode.Text = "Team Deathmatch";
-            }
-            else
-            {
-                SIGamemode.Text = gamemode;
-            }
-
-            if (name.Contains("FFA") || name.Contains("Free For All") || name.Contains("DeathMatch"))
-            {
-                SIGamemode.Text = "Free For All";
-            }
-            else if (name.Contains("Gun Game") || name.Contains("GunGame"))
-            {
-                SIGamemode.Text = "Gun Game";
-            }
-            else if (name.Contains("TDM") || name.Contains("Team Death Match"))
-            {
-                SIGamemode.Text = "Team Deathmatch";
-            }
+            if (gamemode == "custom_tdm")   { SIGamemode.Text = "Team Deathmatch"; }
+            else                            { SIGamemode.Text = gamemode; }
+            //---Other Gamemode Text
+            if (name.Contains("FFA") || name.Contains("Free For All") || name.Contains("DeathMatch"))   { SIGamemode.Text = "Free For All"; }
+            else if (name.Contains("Gun Game") || name.Contains("GunGame"))                             { SIGamemode.Text = "Gun Game"; }
+            else if (name.Contains("TDM") || name.Contains("Team Death Match"))                         { SIGamemode.Text = "Team Deathmatch"; }
 
             //Setup Port Text
             SIPort.Text = port;
@@ -125,37 +96,28 @@ namespace R5RLauncher
             var result = JsonConvert.DeserializeObject<Root>(serverlistresault);
 
             //Setup If First Item Is Being Added
-            bool firstbtn = true;
-            bool firstbg = true;
+            bool firstserver = true;
 
             //Setup Item Locations
             Point btnlocation = new Point(609, 0);
             Point bglocation = new Point(14, 0);
             int serverspacing = 50;
 
+            //Show No Servers Message
             NoServers.Visible = true;
+
             foreach (var item in result.servers)
             {
+                //Hide No Servers Message
                 NoServers.Visible = false;
 
                 //Add Server Background
                 Guna.UI2.WinForms.Guna2Panel bg = new Guna.UI2.WinForms.Guna2Panel();
                 bg.Parent = ServerList;
                 bg.Size = new Size(732, 44);
-                //bg.BackColor = Color.FromArgb(26, 27, 63);
                 bg.FillColor = Color.FromArgb(26, 27, 63);
                 bg.BorderRadius = 2;
-
-                if (firstbg)
-                {
-                    bg.Location = bglocation;
-                    firstbg = false;
-                }
-                else
-                {
-                    bglocation.Y = bglocation.Y + serverspacing;
-                    bg.Location = bglocation;
-                }
+                if (firstserver) { bg.Location = bglocation; firstserver = false; } else { bglocation.Y = bglocation.Y + serverspacing; bg.Location = bglocation; }
                 //End Of Add Server Background
 
                 //Add Connect Button
@@ -180,13 +142,7 @@ namespace R5RLauncher
                 info.Size = new System.Drawing.Size(44, 44);
                 info.Location = new System.Drawing.Point(688, 0);
                 info.Animated = true;
-                info.Click += (s, e) => {
-
-                    SendServerInfo(item.name, item.map, item.gamemode,item.ip, item.port, item.encKey);
-                    guna2Transition1.Hide(Mainserverlistpanel);
-                    guna2Transition1.Show(InfoPanel);
-
-                };
+                info.Click += (s, e) => { SendServerInfoToPanel(item.name, item.map, item.gamemode,item.ip, item.port, item.encKey); guna2Transition1.Hide(Mainserverlistpanel); guna2Transition1.Show(InfoPanel); };
                 //End Of Add Server Info Button
 
                 //Add Server Name Text
@@ -211,34 +167,14 @@ namespace R5RLauncher
                 mapname.ForeColor = Color.White;
                 mapname.Location = new Point(3, 22);
 
-                if (item.map == "mp_rr_canyonlands_64k_x_64k")
-                {
-                    mapname.Text = "King's Canyon Season 0";
-                }
-                else if (item.map == "mp_rr_desertlands_64k_x_64k")
-                {
-                    mapname.Text = "World's Edge Season 3";
-                }
-                else if (item.map == "mp_rr_canyonlands_mu1")
-                {
-                    mapname.Text = "King's Canyon Season 2";
-                }
-                else if (item.map == "mp_rr_canyonlands_mu1_night")
-                {
-                    mapname.Text = "King's Canyon Season 2 After Dark";
-                }
-                else if (item.map == "mp_rr_desertlands_64k_x_64k_nx")
-                {
-                    mapname.Text = "World's Edge Season 3 After Dark";
-                }
-                else if (item.map == "mp_rr_canyonlands_staging")
-                {
-                    mapname.Text = "King's Canyon Firing Range";
-                }
-                else
-                {
-                    mapname.Text = item.map;
-                }
+                //Map Names
+                if (item.map == "mp_rr_canyonlands_64k_x_64k")          { mapname.Text = "King's Canyon Season 0"; }
+                else if (item.map == "mp_rr_desertlands_64k_x_64k")     { mapname.Text = "World's Edge Season 3"; }
+                else if (item.map == "mp_rr_canyonlands_mu1")           { mapname.Text = "King's Canyon Season 2"; }
+                else if (item.map == "mp_rr_canyonlands_mu1_night")     { mapname.Text = "King's Canyon Season 2 After Dark"; }
+                else if (item.map == "mp_rr_desertlands_64k_x_64k_nx")  { mapname.Text = "World's Edge Season 3 After Dark"; }
+                else if (item.map == "mp_rr_canyonlands_staging")       { mapname.Text = "King's Canyon Firing Range"; }
+                else                                                    { mapname.Text = item.map; }
                 //End Of Add Map Text
 
                 //Add Gamemode Text
@@ -252,31 +188,19 @@ namespace R5RLauncher
                 gamemode.Location = new Point(315, 22);
                 gamemode.TextAlignment = ContentAlignment.MiddleRight;
 
-                if (item.gamemode == "custom_tdm")
-                {
-                    gamemode.Text = "Team Deathmatch";
-                }
-                else
-                {
-                    gamemode.Text = item.gamemode;
-                }
-                if (item.name.Contains("FFA") || item.name.Contains("Free For All") || item.name.Contains("DeathMatch"))
-                {
-                    gamemode.Text = "Free For All";
-                }
-                else if (item.name.Contains("Gun Game") || item.name.Contains("GunGame"))
-                {
-                    gamemode.Text = "Gun Game";
-                }
-                else if (item.name.Contains("TDM") || item.name.Contains("Team Death Match"))
-                {
-                    gamemode.Text = "Team Deathmatch";
-                }
+                //Gamemode Names
+                if (item.gamemode == "custom_tdm")  { gamemode.Text = "Team Deathmatch"; }
+                else                                { gamemode.Text = item.gamemode; }
+
+                //---Other Gamemode Names
+                if (item.name.Contains("FFA") || item.name.Contains("Free For All") || item.name.Contains("DeathMatch"))    { gamemode.Text = "Free For All"; }
+                else if (item.name.Contains("Gun Game") || item.name.Contains("GunGame"))                                   { gamemode.Text = "Gun Game"; }
+                else if (item.name.Contains("TDM") || item.name.Contains("Team Death Match"))                               { gamemode.Text = "Team Deathmatch"; }
                 //End Of Add Gamemode Text
 
             }
 
-
+            //Enable Refresh Button Again
             Refreshbtn.Enabled = true;
         }
 
@@ -287,6 +211,8 @@ namespace R5RLauncher
 
         private void Infobackbtn_Click(object sender, EventArgs e)
         {
+            Launcher launcher = (Launcher)Application.OpenForms["Launcher"];
+            launcher.SetBreadCrumText("Server List");
             guna2Transition1.Hide(InfoPanel);
             guna2Transition1.Show(Mainserverlistpanel);
         }

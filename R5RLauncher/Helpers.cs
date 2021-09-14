@@ -1,10 +1,12 @@
-﻿using System;
+﻿using R5RLauncher.Properties;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace R5RLauncher
@@ -46,24 +48,6 @@ namespace R5RLauncher
             if (processes.Length == 0)
             {
 
-                /*if (File.ReadAllText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg").Contains("-dev"))
-                {
-                    //File Good
-                }
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(Settings.Default.GamePath + "/platform/cfg/startup_retail.cfg"))
-                    {
-                        sw.WriteLine("\n-dev");
-                    }
-                }*/
-
-                /*Process p = new Process();
-                p.StartInfo.WorkingDirectory = Settings.Default.GamePath;
-                p.StartInfo.FileName = Settings.Default.GamePath + "\\Run R5 Reloaded.exe";
-                p.StartInfo.Arguments = "-release";
-                p.Start();*/
-
                 await Task.Delay(10000);
 
                 string m_pTestCommand = "launcherconnect" + " " + ip + " " + port + " " + key;
@@ -98,12 +82,91 @@ namespace R5RLauncher
                 Marshal.StructureToPtr(m_cData, ptrCopyData, false);
 
                 SendMessage(m_hEngine, WM_COPYDATA, IntPtr.Zero, ptrCopyData);
+
+            }
+        }
+
+        public async static void StartServer(string vis, string key, string name)
+        {
+            Process[] processes = Process.GetProcessesByName("r5apex");
+
+            string newname = name.Replace(" ", "=");
+
+            //WHAT THE FUCK 8 HOURS FOR THIS SHIT
+            WHYDOINEEDTODOTHISWTF();
+
+            await Task.Delay(1000);
+
+            if (processes.Length > 0)
+            {
+
+                string m_pTestCommand = "createserver" + " " + key + " " + newname + " " + vis;
+
+                IntPtr m_hEngine = FindWindow("Respawn001", null);
+
+                COPYDATASTRUCT m_cData;
+                m_cData.cbData = m_pTestCommand.Length + 1;
+                m_cData.dwData = IntPtr.Zero;
+                m_cData.lpData = Marshal.StringToHGlobalAnsi(m_pTestCommand);
+
+                // Allocate memory for the data and copy
+                IntPtr ptrCopyData = Marshal.AllocCoTaskMem(Marshal.SizeOf(m_cData));
+                Marshal.StructureToPtr(m_cData, ptrCopyData, false);
+
+                SendMessage(m_hEngine, WM_COPYDATA, IntPtr.Zero, ptrCopyData);
+
+            }
+        }
+
+        private async static void WHYDOINEEDTODOTHISWTF()
+        {
+            Process[] processes = Process.GetProcessesByName("r5apex");
+
+            if (processes.Length > 0)
+            {
+
+                string m_pTestCommand = "ccompanion";
+
+                IntPtr m_hEngine = FindWindow("Respawn001", null);
+
+                COPYDATASTRUCT m_cData;
+                m_cData.cbData = m_pTestCommand.Length + 1;
+                m_cData.dwData = IntPtr.Zero;
+                m_cData.lpData = Marshal.StringToHGlobalAnsi(m_pTestCommand);
+
+                // Allocate memory for the data and copy
+                IntPtr ptrCopyData = Marshal.AllocCoTaskMem(Marshal.SizeOf(m_cData));
+                Marshal.StructureToPtr(m_cData, ptrCopyData, false);
+
+                SendMessage(m_hEngine, WM_COPYDATA, IntPtr.Zero, ptrCopyData);
+                await Task.Delay(100);
+                SendMessage(m_hEngine, WM_COPYDATA, IntPtr.Zero, ptrCopyData);
             }
         }
 
         public static double ConvertBytesToMegabytes(long bytes)
         {
             return (bytes / 1024f) / 1024f;
+        }
+
+        public static event EventHandler ProcessClosed;
+
+        public static void MonitorForExit(Process process)
+        {
+            Thread thread = new Thread(() =>
+            {
+                process.WaitForExit();
+                OnProcessClosed(EventArgs.Empty);
+            });
+            thread.Start();
+        }
+
+        private static void OnProcessClosed(EventArgs d)
+        {
+            if (ProcessClosed != null)
+            {
+                ProcessClosed(null, d);
+            }
         }
     }
 }

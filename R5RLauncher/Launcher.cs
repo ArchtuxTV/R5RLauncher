@@ -20,7 +20,7 @@ namespace R5RLauncher
         Control active = null;
         Guna.UI2.WinForms.Guna2Button current = null;
         Size panelsize = new Size(766, 453);
-        Point panellocation = new Point(191, 43);
+        Point panellocation = new Point(185, 43);
         private void Launcher_Load(object sender, EventArgs e)
         {
             //Setup user controls
@@ -29,13 +29,10 @@ namespace R5RLauncher
             homePanel1.Location = panellocation;
 
             serverListPanel1.Size = panelsize;
-            serverListPanel1.Location = new Point(185, 43);
+            serverListPanel1.Location = panellocation;
 
             patchPanel1.Size = panelsize;
             patchPanel1.Location = panellocation;
-
-            docsPanel1.Size = panelsize;
-            docsPanel1.Location = panellocation;
 
             downloadApexPanel1.Size = panelsize;
             downloadApexPanel1.Location = panellocation;
@@ -46,14 +43,12 @@ namespace R5RLauncher
             homePanel1.SendToBack();
             serverListPanel1.SendToBack();
             patchPanel1.SendToBack();
-            docsPanel1.SendToBack();
             downloadApexPanel1.SendToBack();
             settingsPanel1.SendToBack();
 
             homePanel1.Visible = true;
             serverListPanel1.Visible = false;
             patchPanel1.Visible = false;
-            docsPanel1.Visible = false;
             downloadApexPanel1.Visible = false;
             settingsPanel1.Visible = false;
 
@@ -110,18 +105,6 @@ namespace R5RLauncher
             }
         }
 
-        private void Docsbtn_Click(object sender, EventArgs e)
-        {
-            if (active != docsPanel1)
-            {
-                guna2Transition1.Hide(active);
-                guna2Transition1.Show(docsPanel1);
-                active = docsPanel1;
-                SetActiveButton(Docsbtn, current);
-                SetBreadCrum("R5 Documentation");
-            }
-        }
-
         private void Downloadapexbtn_Click(object sender, EventArgs e)
         {
             if (active != downloadApexPanel1)
@@ -144,6 +127,11 @@ namespace R5RLauncher
                 SetActiveButton(Settingsbtn, current);
                 SetBreadCrum("Settings");
             }
+        }
+
+        public void SetBreadCrumText(string text)
+        {
+            this.BreadCrum.Text = "Launcher > " + text;
         }
     }
 }
